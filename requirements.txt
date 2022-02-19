@@ -1,0 +1,5 @@
+qr 
+faker
+faker_vehicle
+web3
+sqlalchemy 
