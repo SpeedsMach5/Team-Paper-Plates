@@ -6,8 +6,8 @@ from bip44 import Wallet
 import sqlalchemy
 import web3 as Web3
 import pandas as pd
-import path as Path
-from web3.gas_strategies.time_based import medium_gas_price_strategy
+import pathlib as Path
+#from web3.gas_strategies.time_based import medium_gas_price_strategy
 from web3 import middleware, Account
 ##########################################################################################
 connection_string = "sqlite:///database_file.db"
@@ -21,7 +21,7 @@ private, public = wallet.derive_account("eth")
 private
 account = Account.privateKeyToAccount(private)
 account_address = account.address
-receiver = "0xD8E0962E8b6b805C4Dc4b1842736a98Fa2484AA9
+receiver = "0xD8E0962E8b6b805C4Dc4b1842736a98Fa2484AA9"
 value = w3.toWei(amount, "ether")
 gasEstimate = w3.eth.estimateGas({ 
     "to": receiver, 
@@ -41,3 +41,4 @@ raw_tx = {
 signed_tx = account.signTransaction(raw_tx)
 
 w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+
