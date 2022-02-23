@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 import os
 import json
 from web3 import Web3
@@ -6,7 +7,7 @@ from dotenv import load_dotenv
 import streamlit as st
 import qrcode
 load_dotenv()
-
+from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 
@@ -34,7 +35,7 @@ def load_contract():
 
 contract = load_contract()
 
-
+qr_img= st.file_uploader("upload your QR")
 ################################################################################
 # Register New Artwork
 ################################################################################
