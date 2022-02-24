@@ -20,7 +20,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('/Users/azaldin/Documents/FinTech/Team-Paper-Plates/abi.json')) as f:
+    with open(Path('abi.json')) as f:
         artwork_abi = json.load(f)
 
     contract_address = os.getenv("SMART_CONTRACT_ADDRESS")
