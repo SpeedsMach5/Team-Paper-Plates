@@ -39,7 +39,7 @@ qr_img= st.file_uploader("upload your QR")
 ################################################################################
 # Register New Artwork
 ################################################################################
-st.title("Verify License PLate Status")
+st.title("Verify License Plate Status")
 accounts = w3.eth.accounts
 # Use a streamlit component to get the address of the artwork owner from the user
 address = st.selectbox("Vehicle Information", options=accounts)
