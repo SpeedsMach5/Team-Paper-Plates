@@ -8,23 +8,34 @@ contract CarRegistry is ERC721Full {
     struct QRCode {
         string name;
         string vin;
+        string make;
+        string model;
+        string year;
+        string color;
         string url;
     }
 
     mapping(uint256 => QRCode) public vehicleCollection;
     
-    function registerCar(
+    function registerOwner(
         address owner,
         string memory name,
         string memory vin,
+        string memory make,
+        string memory model,
+        string memory year,
+        string memory color,
         string memory url
-    ) public returns (uint256) {
+    ) 
+    
+    public returns (uint256) {
         uint256 tokenId = totalSupply();
 
         _mint(owner, tokenId);
+       
         _setTokenURI(tokenId, url);
 
-        vehicleCollection[tokenId] = QRCode(name, vin, url);
+        vehicleCollection[tokenId] = QRCode(name, vin, make, model, year, color,  url);
 
         return tokenId;
     }

@@ -75,4 +75,6 @@ df.to_sql(
     if_exists="replace",
     index=True)
 
-engine.table_names()
+engine.table_names() 
+
+print(pd.read_sql_table("Texas License Plates", con=engine).T) 

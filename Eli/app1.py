@@ -1,17 +1,32 @@
 
+from operator import index
 from web3 import Web3
 import streamlit as st
 import json
 from dotenv import load_dotenv
 import os
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json, get_CID
-
-
-
-
-
+from importlib_metadata import metadata
+from pyrsistent import v
+import qrcode as qr
+from faker import Faker
+from faker_vehicle import VehicleProvider
+import pandas as pd
+from faker.providers import automotive
+import random
+import streamlit as st
+import web3 as Web3
+import pandas as pd
+import path as Path
+import sqlalchemy as db
+from sqlalchemy import create_engine, MetaData, Table
+# from Texas_Database import  td 
+import time
+from tqdm import tqdm
 
 load_dotenv()
+
+
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
@@ -62,11 +77,16 @@ def pin_appraisal_report(report_content):
 contract = load_contract()
 
 
-st.title("Register New Artwork")
+st.title("Register Vehicle Sales")
 accounts = w3.eth.accounts
 address = st.selectbox("Select Account", options=accounts)
-name = st.text_input("What is the name of your car")
-vin = st.text_input("What is the VIN of your car")
+name = st.text_input("What is the name of the owner?")
+vin = st.text_input("What is the VIN#?")
+make = st.text_input("What is the make of the vehicle?")
+model = st.text_input("What is the model of the vehicle?")
+year = st.text_input("What is the year of the vehicle?")
+color = st.text_input("What is the color of the vehicle?")
+expiration = st.text_input("When do the temporary tags expire?")
 
 uploaded_file = st.file_uploader("what is the QR Code?")
 st.write(uploaded_file)
@@ -126,14 +146,30 @@ token_id = list(range(tokens))
 
 
 # if st.button("Display"):
-   
+
+engine = create_engine('sqlite:///database_file.db')
+connection = engine.connect()
+df = pd.read_sql_table("Texas License Plates", con=engine)
+token_uri = df['VIN Number']
+
+token_uri=[]
+
+token_uri = [pd.read_sql_table('VIN Number') for vin in token_uri]  
 
 # Use the contract's `ownerOf` function to get the art token owner
 owner = contract.functions.ownerOf(token_id[-1]).call()
 
-st.write(f"The token is registered to {owner}")
+st.write(f"The vehicle is registered to {owner}")
 
 # Use the contract's `tokenURI` function to get the art token's URI
 token_uri = contract.functions.tokenURI().call()
-st.write(f"The tokenURI is {token_uri}")
+st.write(f"The VIN# is {token_uri}")
 st.image(token_uri)
+
+##########################################################
+# 
+# need to loop through database and convert token_uri to VIN# 
+# 
+##########################################################
+
+
