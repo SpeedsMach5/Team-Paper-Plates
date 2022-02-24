@@ -4,7 +4,7 @@ import streamlit as st
 import json
 from dotenv import load_dotenv
 import os
-from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
+from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json, get_CID
 
 
 
@@ -75,6 +75,8 @@ st.write(uploaded_file)
 if st.button("Register Artwork"):
     artwork_ipfs_hash = pin_artwork(name, uploaded_file)
     artwork_uri = f"ipfs://{artwork_ipfs_hash}"
+    cid = get_CID(artwork_ipfs_hash)
+
     tx_hash = contract.functions.registerCar(
         address,
         name,
@@ -85,9 +87,7 @@ if st.button("Register Artwork"):
     st.write("Transaction receipt mined:")
     st.write(dict(receipt))
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
-    ipfs_link = st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
-    st.markdown(ipfs_link)
-    st.image(f"https://ipfs.io/ipfs/{artwork_ipfs_hash}")
+    st.image(f"https://gateway.pinata.cloud/ipfs/{cid}")
 
 st.markdown("---")
 

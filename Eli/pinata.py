@@ -38,3 +38,6 @@ def pin_json_to_ipfs(json):
     print(r.json())
     ipfs_hash = r.json()["IpfsHash"]
     return ipfs_hash
+
+def get_CID(file_ipfs_hash):
+    return requests.get(f"https://gateway.pinata.cloud/ipfs/{file_ipfs_hash}").json()["image"]
