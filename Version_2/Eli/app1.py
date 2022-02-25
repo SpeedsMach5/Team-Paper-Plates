@@ -1,4 +1,6 @@
-
+################################################################################
+# IMPORTS
+################################################################################
 from web3 import Web3
 import streamlit as st
 import json
@@ -11,15 +13,6 @@ import cv2
 import sqlalchemy as sql
 import pandas as pd
 import io
-
-
-
-
-
-
-
-
-
 
 
 
@@ -45,8 +38,9 @@ def load_contract():
 
 def pin_artwork(artwork_name, artwork_file):
     # Pin the file to IPFS with Pinata
-    ipfs_file_hash = pin_file_to_ipfs(artwork_file.getvalue())
+    ipfs_file_hash = pin_file_to_ipfs(artwork_file)
     # Build a token metadata file for the artwork
+    st.write(type(artwork_file))
     token_json = {
         "name": artwork_name,
         "image": ipfs_file_hash
@@ -74,7 +68,7 @@ def qr_decoder(file):
     if vertices_array is not None:
         return json.loads(data)
     else:
-        return "There was some error"
+        return st.write("There was some error")
 
 
 def make_qr_quote(name, vin, status, make, model, year):
@@ -95,7 +89,11 @@ def make_qr_quote(name, vin, status, make, model, year):
     img.save(f"temp/{name}.jpg")
     # return img.get_image()
 
-
+def get_image_from_database(name):
+        with open(f"../Eli/temp/{name}.jpg", "rb") as image:
+                f = image.read()
+                b = bytearray(f)
+                return b
 
 #################################################################################
 #Connect to DB
@@ -136,49 +134,53 @@ if st.button("Register License Plates"):
     import time
     time.sleep(1)
 
-    #open the Image that was generated as a file
-    with open(f"../Eli/temp/{name}.jpg","rb") as file:
-        #give the user the option to download their QR code
-        btn = st.download_button(
-                label="Download image",
-                data=file,
-                file_name=f"{name}.jpg",
-                mime="image/jpg"
-            )
+
+
+
+
+
 
 #THIS IS WHERE I NEED HELP WITH THE FILE BEING PROCESSED THROUGH THE CODE WITHOUT THE USER HAVING TO UPLAOD THE FILE AGAIN FOT MINTING
 st.title("Mint License Plates")
-uploaded_file = st.file_uploader("what is the QR Code?") 
+# uploaded_file = st.file_uploader("what is the QR Code?") 
 #Cam why is it that I cannot use the file that is open up above? It only works when I use Streamlit's upload function? 
-if uploaded_file is not None:
+# if uploaded_file is not None:
+file = get_image_from_database(name)
+# pin artwork to pinata
+artwork_ipfs_hash = pin_artwork(name,file )
 
-    # pin artwork to pinata
-    artwork_ipfs_hash = pin_artwork(name,uploaded_file )
-    
-    # get the uri
-    artwork_uri = f"ipfs://{artwork_ipfs_hash}"
-    
-    # get the CID
-    cid = get_CID(artwork_ipfs_hash)
+# get the uri
+artwork_uri = f"ipfs://{artwork_ipfs_hash}"
 
-    # mint NFT through the smart contract function registerCar()
-    tx_hash = contract.functions.registerCar(
-        address,
-        name,
-        vin,
-        artwork_uri
-    ).transact({'from': address, 'gas': 1000000})
-    receipt = w3.eth.waitForTransactionReceipt(tx_hash)
-    
-    #getting the json recipet for hash
-    st.write("Transaction receipt mined:")
-    st.write(dict(receipt))
-    
-    #view the link to the artwork - thinking of deleting this and only kepeing the pinata link as a preview - thoughts? 
-    st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
-    ipfs_link = st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
-    
-    st.image(f"https://gateway.pinata.cloud/ipfs/{cid}")
+# get the CID
+cid = get_CID(artwork_ipfs_hash)
+
+# mint NFT through the smart contract function registerCar()
+tx_hash = contract.functions.registerCar(
+    address,
+    name,
+    vin,
+    artwork_uri
+).transact({'from': address, 'gas': 1000000})
+receipt = w3.eth.waitForTransactionReceipt(tx_hash)
+
+#getting the json recipet for hash
+st.write("Transaction receipt mined:")
+st.write(dict(receipt))
+
+#view the link to the artwork - thinking of deleting this and only kepeing the pinata link as a preview - thoughts? 
+st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
+ipfs_link = st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
+
+st.image(f"https://gateway.pinata.cloud/ipfs/{cid}")
+    #open the Image that was generated as a file
+with open(f"../Eli/temp/{name}.jpg","rb") as file:
+    #give the user the option to download their QR code
+    btn = st.download_button(
+            label="Download image",
+            data=file,
+            file_name=f"{name}.jpg",
+            mime="image/jpg")
 
 
 #################################################################################
