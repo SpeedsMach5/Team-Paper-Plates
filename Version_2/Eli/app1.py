@@ -167,8 +167,14 @@ receipt = w3.eth.waitForTransactionReceipt(tx_hash)
 
 #getting the json recipet for hash
 st.write("Transaction receipt mined:")
-st.write(dict(receipt))
+# st.write(dict(receipt)) -- COMMENTING THIS LINE OUT AS THE USER CAN VIEW THEIR RECIEPT IF THEY WANT TO OR DOWNLOAD IT
 
+if st.button("View Reciept"):
+    st.write(dict(receipt))
+
+
+st.download_button("Download your reciept",data=(str(receipt)))
+# st.download_button("elias",)
 #view the link to the artwork - thinking of deleting this and only kepeing the pinata link as a preview - thoughts? 
 st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
 ipfs_link = st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
@@ -224,6 +230,4 @@ def qr_decoder(file):
         return data
     else:
         return st.write("There was some error")            
-
-st.write(qr_decoder(qr_verify))
 
