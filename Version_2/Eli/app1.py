@@ -13,6 +13,9 @@ import cv2
 import sqlalchemy as sql
 import pandas as pd
 import io
+from pyzbar.pyzbar import decode
+
+import numpy as np
 
 
 
@@ -210,24 +213,44 @@ def total_token_supply():
 
 def vin_verification(number_of_tokens, vin_to_verify):
     for number in range(0,number_of_tokens):
-        print(number)
         if contract.functions.vehicleCollection(number).call()[1] == vin_to_verify:
-            print("IN SYSTEM")
+            return "IN SYSTEM"
         else:
-            print("not in system")
+            continue 
+    return "not in system"
 
 def qr_decoder(file):    
-    # read the QRCODE image
-    st.write(file)
-    image = cv2.imread(file)
-    # initialize the cv2 QRCode detector
-    detector = cv2.QRCodeDetector()
-    # detect and decode
-    data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
-    # if there is a QR code
-    # print the data
-    if vertices_array is not None:
-        return data
-    else:
-        return st.write("There was some error")            
+
+    file_bytes = file.getvalue()
+
+    img_arr = np.frombuffer(file_bytes,np.uint8)
+   
+    img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+   
+    data = decode(img)[0].data
+
+    decode_data = data.decode("utf-8")
+
+    replace_string = decode_data.replace("'",'"')
+    
+    json_format_data = json.loads(replace_string)
+
+    return json_format_data
+
+
+if qr_verify:
+
+    vin = qr_decoder(qr_verify)["vin"]
+
+
+    
+    
+
+
+    total_supply = total_token_supply()
+
+    st.write(vin_verification(total_supply, vin))
+
+
+
 
