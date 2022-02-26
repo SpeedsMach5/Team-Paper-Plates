@@ -239,6 +239,11 @@
 			},
 			{
 				"internalType": "string",
+				"name": "status",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "url",
 				"type": "string"
 			}
@@ -493,6 +498,11 @@
 			{
 				"internalType": "string",
 				"name": "vin",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "status",
 				"type": "string"
 			},
 			{

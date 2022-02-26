@@ -56,19 +56,19 @@ def pin_appraisal_report(report_content):
     return report_ipfs_hash
 
     
-def qr_decoder(file):    
-    # read the QRCODE image
-    image = cv2.imread(file)
-    # initialize the cv2 QRCode detector
-    detector = cv2.QRCodeDetector()
-    # detect and decode
-    data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
-    # if there is a QR code
-    # print the data
-    if vertices_array is not None:
-        return json.loads(data)
-    else:
-        return st.write("There was some error")
+# def qr_decoder(file):    
+#     # read the QRCODE image
+#     image = cv2.imread(file)
+#     # initialize the cv2 QRCode detector
+#     detector = cv2.QRCodeDetector()
+#     # detect and decode
+#     data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
+#     # if there is a QR code
+#     # print the data
+#     if vertices_array is not None:
+#         return data
+#     else:
+#         return st.write("There was some error")
 
 
 def make_qr_quote(name, vin, status, make, model, year):
@@ -77,13 +77,13 @@ def make_qr_quote(name, vin, status, make, model, year):
     error_correction=qrcode.constants.ERROR_CORRECT_L,
     box_size=10,
     border=4)
-    qr.add_data(json.dumps(
+    qr.add_data(
         {"name":f"{name}", 
         "vin":f"{vin}",
         "status":f"{status}",
         "make":f"{make}",
         "model":f"{model}",
-        "year":f"{year}"}))
+        "year":f"{year}"})
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(f"temp/{name}.jpg")
@@ -160,6 +160,7 @@ tx_hash = contract.functions.registerCar(
     address,
     name,
     vin,
+    status,
     artwork_uri
 ).transact({'from': address, 'gas': 1000000})
 receipt = w3.eth.waitForTransactionReceipt(tx_hash)
@@ -190,5 +191,39 @@ with open(f"../Eli/temp/{name}.jpg","rb") as file:
 
 st.markdown("---")
 st.title("Verify License Plates")
-uploaded_file = st.file_uploader("Please upload your QR Code?")
+qr_verify = st.file_uploader("Please upload your QR Code?")
+
+
+#################################################################################
+# FUNCTIONS TO FULFILL THE VERIFYING PROCESS
+#################################################################################
+
+def total_token_supply():
+    return contract.functions.totalSupply().call()
+
+
+def vin_verification(number_of_tokens, vin_to_verify):
+    for number in range(0,number_of_tokens):
+        print(number)
+        if contract.functions.vehicleCollection(number).call()[1] == vin_to_verify:
+            print("IN SYSTEM")
+        else:
+            print("not in system")
+
+def qr_decoder(file):    
+    # read the QRCODE image
+    st.write(file)
+    image = cv2.imread(file)
+    # initialize the cv2 QRCode detector
+    detector = cv2.QRCodeDetector()
+    # detect and decode
+    data, vertices_array, binary_qrcode = detector.detectAndDecode(image)
+    # if there is a QR code
+    # print the data
+    if vertices_array is not None:
+        return data
+    else:
+        return st.write("There was some error")            
+
+st.write(qr_decoder(qr_verify))
 
