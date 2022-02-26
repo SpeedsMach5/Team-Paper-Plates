@@ -47,6 +47,7 @@ for i in range(0,100000):
     ident[i]["State"] = "Texas"
     ident[i]["Country"] = fake.current_country()
     ident[i]["Vehicle"] = fake.vehicle_object()
+    ident[i]["Color"] = fake.safe_color_name()
 
 
 v_list = []
