@@ -14,7 +14,7 @@ from Data.pinata import get_CID
 from functions import load_contract, pin_artwork, pin_artwork, make_qr_quote, get_image_from_database, total_token_supply, vin_verification, qr_decoder, register_car,connect_to_db, get_qr_info
 load_dotenv()
 
-
+print('connecting to Web3')
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
