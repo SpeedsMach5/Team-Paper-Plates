@@ -1,8 +1,6 @@
-web3
-Pillow
-opencv-python
-streamlit
 qrcode
-sqlalchemy
+Pillow
+streamlit
+web3
+sqalchemy
 pyzbar
-python-dotenv
