@@ -1,7 +1,7 @@
 ################################################################################
 # IMPORTS
 ################################################################################
-from tkinter.ttk import Progressbar
+
 from web3 import Web3
 import streamlit as st
 from dotenv import load_dotenv
