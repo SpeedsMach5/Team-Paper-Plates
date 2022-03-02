@@ -1,6 +1,6 @@
 web3
-os
-cv2
+
+opencv-python
 streamlit
 qrcode
 sqlalchemy
