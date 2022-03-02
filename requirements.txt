@@ -5,3 +5,4 @@ streamlit
 qrcode
 sqlalchemy
 pyzbar
+python-dotenv
