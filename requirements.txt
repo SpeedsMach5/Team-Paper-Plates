@@ -2,4 +2,6 @@ web3
 os
 cv2
 streamlit
-pinata
+qrcode
+sqlalchemy
+pyzbar
