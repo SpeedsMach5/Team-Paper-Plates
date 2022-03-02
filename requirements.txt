@@ -1,5 +1,5 @@
 web3
-
+Pillow
 opencv-python
 streamlit
 qrcode
