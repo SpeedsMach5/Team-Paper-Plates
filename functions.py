@@ -6,7 +6,6 @@ import os
 from Data.pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 from Data.pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json, get_CID
 import qrcode
-import cv2
 import sqlalchemy as sql
 import pandas as pd
 import io
@@ -14,6 +13,8 @@ from pyzbar.pyzbar import decode
 import numpy as np
 load_dotenv()
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
+
+from PIL import Image
 
 
 
@@ -101,23 +102,23 @@ def vin_verification(number_of_tokens, vin_to_verify):
             continue 
     return "not in system"
 
-def qr_decoder(file):    
+# def qr_decoder(file):    
 
-    file_bytes = file.getvalue()
+#     file_bytes = file.getvalue()
 
-    img_arr = np.frombuffer(file_bytes,np.uint8)
+#     img_arr = np.frombuffer(file_bytes,np.uint8)
    
-    img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+#     img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
    
-    data = decode(img)[0].data
+#     data = decode(img)[0].data
 
-    decode_data = data.decode("utf-8")
+#     decode_data = data.decode("utf-8")
 
-    replace_string = decode_data.replace("'",'"')
+#     replace_string = decode_data.replace("'",'"')
     
-    json_format_data = json.loads(replace_string)
+#     json_format_data = json.loads(replace_string)
 
-    return json_format_data
+#     return json_format_data
 
 def connect_to_db():
     connection_string = "sqlite:///database_file.db"
@@ -138,3 +139,22 @@ def get_qr_info(file):
     
     
 
+
+
+def qr_decoder(file):    
+
+    file_bytes = file.getvalue()
+    
+    image = Image.open(io.BytesIO(file_bytes))
+
+    
+    data = decode(image)[0].data
+
+    decode_data = data.decode("utf-8")
+
+    replace_string = decode_data.replace("'",'"')
+    
+    json_format_data = json.loads(replace_string)
+
+    return json_format_data
+    # st.write(data[0])
