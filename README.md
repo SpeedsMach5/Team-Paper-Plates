@@ -1,3 +1,6 @@
+
+
+
 # Anti Fraudulent Paper License Plates
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
@@ -5,16 +8,10 @@
 
 
 ## Table of Contents
-
 - [Background](#background)
-- [Install](#install)
-- [Usage](#usage)
-	- [Generator](#generator)
-- [Badge](#badge)
-- [Example Readmes](#example-readmes)
-- [Related Efforts](#related-efforts)
-- [Maintainers](#maintainers)
+- [Getting Started](#Getting_Started)
 - [Contributing](#contributing)
+- [Contributers](#contributers)
 - [License](#license)
 
 ## Background
@@ -30,44 +27,86 @@ plates tied to the vehicle VIN# and a denial of valid status for all subsequent 
 
 ~ [Source](https://abc13.com/harris-county-crime-fraud-fake-paper-plates-license/11294844/)
 
-## Install
+<!-- GETTING STARTED -->
+## Getting Started
+To get a local copy up and running follow these simple example steps.
 
+### Prerequisites
+#### Download or Clone this repository (Team-Paper-Plates)
+#### Import the neccesary libraries  
+* tkinter.ttk
+  ```sh
+  from tkinter import ttk
+  ```
+* web3
+  ```sh
+  $ pip install web3
+  ```
+* streamlit 
+  ```sh
+  pip install streamlit
+  ```
+* dotenv 
+  ```sh
+  pip install python-dotenv
+  ```
+* os
+  ```sh
+  import os
+  ```
+* json
+  ```sh
+  import json
+  ```
+* qrcode
+  ```sh
+  pip install qrcode[pil]
+  ```
+* cv2
+  ```sh
+  pip install opencv-python
+  ```
+* sqlalchemy
+  ```sh
+  pip install -c anaconda sqlalchemy
 
-
-
-
-
-
-## Generator
-
-To use the generator, look at [generator-standard-readme](https://github.com/RichardLitt/generator-standard-readme). There is a global executable to run the generator in that package, aliased as `standard-readme`.
-
-## Badge
-
-If your README is compliant with Standard-Readme and you're on GitHub, it would be great if you could add the badge. This allows people to link back to this Spec, and helps adoption of the README. The badge is **not required**.
-
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-
-To add in Markdown format, use this code:
-
-```
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-```
-
-
-## Related Efforts
-
-
-
-## Maintainers
-
-
-
+  ```
+* pandas as pd
+  ```sh
+  pip install pandas
+  ```
+* io
+  ```sh
+  pip install requires.io
+  ```
+* pyzbar
+  ```sh
+  brew install zbar
+  ```
+* numpy
+  ```sh
+  pip install numpy
+  ```
+<!-- CONTRIBUTING -->
 ## Contributing
 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-### Contributors
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Contributors
+* @eliassantibanez
+* @SpeedsMach5
+* @habibi242
 
 
 ## License

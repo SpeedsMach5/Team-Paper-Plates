@@ -1,7 +1,6 @@
+qrcode
+Pillow
+streamlit
 web3
 
-opencv-python
-streamlit
-qrcode
-sqlalchemy
 pyzbar
