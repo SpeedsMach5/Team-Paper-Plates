@@ -26,7 +26,7 @@ df = connect_to_db()
 
 contract = load_contract()
 
-st.title("Register New Artwork")
+st.title("Register New Vehicle")
 accounts = w3.eth.accounts
 address = st.selectbox("Select Account", options=accounts)
 name = st.text_input("What is the person's name")
@@ -39,9 +39,6 @@ year = st.selectbox("What is the year of the vehicle?",df.Year.sort_values().uni
 #################################################################################
 # QR CODE STUFF
 #################################################################################
-
-# my_bar = st.progress(0)
-# import time
 
 
 
@@ -84,7 +81,7 @@ if st.button("Register License Plates"):
         #getting the json recipet for hash
         st.write("Transaction receipt mined:")
 
-        if st.button("View Reciept"):
+        with st.expander("View Reciept"):
             st.write(dict(receipt))
 
 
