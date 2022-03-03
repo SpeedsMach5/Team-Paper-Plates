@@ -58,7 +58,7 @@ if st.button("Register License Plates"):
         #     my_bar.progress(percent_complete + 1)
         
         #CALL THE QR GENERATOR FUNCTION  WITH ALL INPUT INFORMATION 
-        qr_file = make_qr_quote(name, vin, status, make, model, year)
+        qr_file = make_qr_quote(name, vin, status, make, model, year, address)
         
 
         # if uploaded_file is not None:
@@ -84,6 +84,12 @@ if st.button("Register License Plates"):
 
         #getting the json recipet for hash
         st.write("Transaction receipt mined:")
+
+        hash =  dict(receipt)
+
+      
+
+        # st.write(hash)
 
         with st.expander("View Reciept"):
             st.write(dict(receipt))
@@ -135,11 +141,11 @@ if qr_verify:
     model = qr_decoder_file["model"] 
     year = qr_decoder_file["year"]
     total_supply = total_token_supply()
-
-
-    with st.spinner('Reading your license plates...'):
-            
-            
+    try:
+        address = qr_decoder_file["address"]
+        with st.spinner('Reading your license plates...'):
+        
+        
             message = vin_verification(total_supply, vin)            
             st.markdown("---")
 
@@ -147,10 +153,18 @@ if qr_verify:
             st.markdown(f"* **Name:** {name} \n * **Vin:** {vin} \n * **Status:** {status} \n * **Make:** {make} \n * **Model:** {model} \n * **Year:** {year}")
             st.markdown("---")
             st.markdown("### License Status")
-            if message == "not in system":
-                st.error("Your license plate is not in the system")
+            
+            if message == "IN SYSTEM" and address is not None:
+                st.success("Your registration has been found")
             else:
-                st.success('Your registration has been found')
+                st.error('Your license plate is not in the system')
+
+    except:
+        st.error("Your license plate is not in the system")
+
+
+
+   
 
 
 

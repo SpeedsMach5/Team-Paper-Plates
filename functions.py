@@ -66,7 +66,7 @@ def pin_appraisal_report(report_content):
     report_ipfs_hash = pin_json_to_ipfs(json_report)
     return report_ipfs_hash
 
-def make_qr_quote(name, vin, status, make, model, year):
+def make_qr_quote(name, vin, status, make, model, year, address):
     qr = qrcode.QRCode(
     version=1,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -78,7 +78,8 @@ def make_qr_quote(name, vin, status, make, model, year):
         "status":f"{status}",
         "make":f"{make}",
         "model":f"{model}",
-        "year":f"{year}"})
+        "year":f"{year}",
+        "address":address})
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(f"./temp/{name}.jpg")
@@ -96,7 +97,7 @@ def total_token_supply():
 
 def vin_verification(number_of_tokens, vin_to_verify):
     for number in range(0,number_of_tokens):
-        if contract.functions.vehicleCollection(number).call()[1] == vin_to_verify:
+        if (contract.functions.vehicleCollection(number).call()[1] == vin_to_verify) and (contract.functions.ownerOf(number) is not None):
             return "IN SYSTEM"
         else:
             continue 
